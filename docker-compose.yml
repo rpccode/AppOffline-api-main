@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  loanpg:
+    image: postgres:latest
+    env_file: ./.env
+    environment:
+      POSTGRES_DB: $POSTGRES_DATABASE
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - "$POSTGRES_PORT:5432"
+
+  loanapi:
+    depends_on:
+      - loanpg
+    links:
+      - loanpg
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    env_file: ./.env
+    ports:
+      - $PORT:$PORT
+    environment:
+      DATABASE_URL: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:$POSTGRES_PORT/$POSTGRES_DATABASE
+   

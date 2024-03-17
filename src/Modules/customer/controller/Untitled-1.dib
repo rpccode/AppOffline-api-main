@@ -1,0 +1,448 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"javascript","items":[{"aliases":[],"languageName":"javascript","name":"javascript"}]}}
+
+#!javascript
+
+function calcularDetallesCuotas(loanHeader) {
+    const {
+      LoanId,
+      TenantId,
+      Dues,
+      Interest,
+      Amount,
+      Start_date,
+      StateId
+    } = loanHeader;
+  
+    // Calcular los valores necesarios
+   let duesAmount = Amount / Dues; // Monto de cada cuota
+   let totalInterest = (Amount * Interest) / 100; // Total de interés por cuota
+   let totalAmount = duesAmount + totalInterest; // Monto total por cuota
+  
+    // Crear objeto con los valores calculados
+   let loanDetailValues = {
+      LoanId,
+      TenantId,
+      Dues_amount: duesAmount,
+      Total_amount: totalAmount,
+      Total_interest: totalInterest,
+      Start_date,
+      StateId,
+    };
+  
+    return loanDetailValues;
+  }
+  
+  // Ejemplo de uso
+ let loanHeader = {
+    LoanId: 1,
+    TenantId: 'abc123',
+    UserId: 'user123',
+    infoId: 101,
+    FrequencyId: 201,
+    Amount: 10000.00,
+    Dues: 12,
+    Interest: 5.0,
+    Start_date: '2024-01-01',
+    StateId: 301,
+  };
+  
+  const loanDetailValues = calcularDetallesCuotas(loanHeader);
+  console.log(loanDetailValues);
+  
+
+#!javascript
+
+function calcularDetallesCuotas(loanHeader) {
+    const {
+      LoanId,
+      TenantId,
+      Dues,
+      Interest,
+      Amount,
+      Start_date,
+      StateId
+    } = loanHeader;
+  
+    // Arreglo para almacenar los detalles de las cuotas
+    let cuotas = [];
+    let payTotalAmount = 0;
+    let paytotalInterest =0;
+    let payduesAmount =0;
+
+    // Calcular los valores necesarios para cada cuota
+    for (let cuotaNumero = 1; cuotaNumero <= Dues; cuotaNumero++) {
+      const duesAmount = Amount / Dues; // Monto de cada cuota
+      const totalInterest = (Amount * Interest) / 100; // Total de interés por cuota
+      const totalAmount = duesAmount + totalInterest; // Monto total por cuota
+  
+      // Crear objeto con los valores calculados
+      const loanDetailValues = {
+        LoanId,
+        TenantId,
+        Dues_amount: duesAmount,
+        Total_amount: totalAmount,
+        Total_interest: totalInterest,
+        Start_date,
+        StateId,
+      };
+       payTotalAmount += totalAmount;
+       paytotalInterest += totalInterest;
+       payduesAmount +=duesAmount;
+
+      // Agregar el detalle de la cuota al arreglo
+      cuotas.push(loanDetailValues);
+    }
+  
+    return {
+      cuotas,
+      payduesAmount,
+      payTotalAmount,
+      paytotalInterest
+
+    };
+  }
+  
+  // Ejemplo de uso
+  const loanHeader = {
+    LoanId: 1,
+    TenantId: 'abc123',
+    UserId: 'user123',
+    infoId: 101,
+    FrequencyId: 201,
+    Amount: 10000.00,
+    Dues: 12,
+    Interest: 5.0,
+    Start_date: '2024-01-01',
+    StateId: 301,
+  };
+  
+  const detallesCuotas = calcularDetallesCuotas(loanHeader);
+  console.log({...detallesCuotas});
+  
+
+#!javascript
+
+function calcularDetallesCuotas(loanHeader) {
+    const {
+        LoanId,
+        TenantId,
+        Dues,
+        Interest,
+        Amount,
+        Start_date,
+        StateId
+    } = loanHeader;
+
+    // Arreglo para almacenar los detalles de las cuotas
+    const cuotas = [];
+    let payTotalAmount = 0;
+    let payTotalInterest = 0;
+    let payDuesAmount = 0;
+
+    // Calcular los valores necesarios para cada cuota
+    for (let cuotaNumero = 1; cuotaNumero <= Dues; cuotaNumero++) {
+        const duesAmount = Math.floor(Amount / Dues); // Redondear hacia arriba el monto de cada cuota
+        const totalInterest = Math.floor((Amount * Interest) / 100); // Redondear hacia arriba el total de interés por cuota
+        const totalAmount = duesAmount + totalInterest; // Monto total por cuota
+
+        // Crear objeto con los valores calculados
+        const loanDetailValues = {
+            LoanId,
+            TenantId,
+            Dues_amount: duesAmount,
+            Total_amount: totalAmount,
+            Total_interest: totalInterest,
+            Start_date,
+            StateId,
+        };
+
+        payTotalAmount += totalAmount;
+        payTotalInterest += totalInterest;
+        payDuesAmount += duesAmount;
+
+        // Agregar el detalle de la cuota al arreglo
+        cuotas.push(loanDetailValues);
+    }
+
+    return {
+        cuotas,
+        payTotalAmount,
+        payTotalInterest,
+        payDuesAmount
+    };
+}
+
+// Ejemplo de uso
+const loanHeader = {
+    LoanId: 1,
+    TenantId: 'abc123',
+    UserId: 'user123',
+    infoId: 101,
+    FrequencyId: 201,
+    Amount: 10000.00,
+    Dues: 12,
+    Interest: 5.0,
+    Start_date: '2024-01-01',
+    StateId: 301,
+};
+
+const detallesCuotas = calcularDetallesCuotas(loanHeader);
+console.log(detallesCuotas);
+
+#!javascript
+
+function calcularFechaCuota(start_date, cuotaNumero, frequency) {
+    const startDate = new Date(start_date);
+    let fechaCuota;
+
+    switch (frequency) {
+        case 1: // Weekly
+            fechaCuota = new Date(startDate.getTime() + cuotaNumero * 7 * 24 * 60 * 60 * 1000);
+            break;
+        case 2: // Bi-Weekly
+            fechaCuota = new Date(startDate.getTime() + cuotaNumero * 14 * 24 * 60 * 60 * 1000);
+            break;
+        case 3: // Monthly
+            fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero, startDate.getDate());
+            break;
+        case 4: // Quarterly
+            fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero * 3, startDate.getDate());
+            break;
+        case 5: // Semi-Annually
+            fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero * 6, startDate.getDate());
+            break;
+        case 6: // Annually
+            fechaCuota = new Date(startDate.getFullYear() + cuotaNumero, startDate.getMonth(), startDate.getDate());
+            break;
+        default:
+            throw new Error('Frecuencia no válida');
+    }
+
+    return fechaCuota.toISOString().split('T')[0];
+}
+
+
+function calcularDetallesCuotas(loanHeader) {
+    const {
+        LoanId,
+        TenantId,
+        FrequencyId,
+        Dues,
+        Interest,
+        Amount,
+        Start_date,
+        StateId
+    } = loanHeader;
+
+    // Arreglo para almacenar los detalles de las cuotas
+    const cuotas = [];
+    let payTotalAmount = 0;
+    let payTotalInterest = 0;
+    let payDuesAmount = 0;
+
+    // Calcular los valores necesarios para cada cuota
+    for (let cuotaNumero = 1; cuotaNumero <= Dues; cuotaNumero++) {
+        let duesAmount = Math.floor(Amount / Dues); // Redondear hacia abajo el monto de cada cuota
+        const totalInterest = Math.floor((Amount * Interest) / 100); // Redondear hacia abajo el total de interés por cuota
+        let totalAmount = duesAmount + totalInterest; // Monto total por cuota
+
+        // Ajustar el último pago para igualar el monto original del préstamo
+        if (cuotaNumero === Dues) {
+            const amountRemaining = Amount - payDuesAmount - duesAmount
+            console.log(amountRemaining)
+            duesAmount += amountRemaining
+        }
+
+        // Crear objeto con los valores calculados
+        const loanDetailValues = {
+            LoanId,
+            TenantId,
+            Dues_num:cuotaNumero,
+            Dues_amount: duesAmount,
+            Total_amount: totalAmount,
+            Total_interest: totalInterest,
+            dues_date:calcularFechaCuota(Start_date, cuotaNumero, FrequencyId),
+            StateId,
+        };
+
+        payTotalAmount += duesAmount;
+        payTotalInterest += totalInterest;
+        payDuesAmount += duesAmount;
+
+        // Agregar el detalle de la cuota al arreglo
+        cuotas.push(loanDetailValues);
+    }
+
+    return {
+        cuotas,
+        payTotalAmount,
+        payTotalInterest,
+        payDuesAmount
+    };
+}
+
+// Ejemplo de uso
+const loanHeader = {
+    LoanId: 1,
+    TenantId: 'abc123',
+    UserId: 'user123',
+    infoId: 101,
+    FrequencyId: 3,
+    Amount: 10000.00,
+    Dues: 12,
+    Interest: 5.0,
+    Start_date: '2024-01-01',
+    StateId: 301,
+};
+
+const detallesCuotas = calcularDetallesCuotas(loanHeader);
+console.log(detallesCuotas);
+
+#!javascript
+
+function calcularFechaCuota(start_date, cuotaNumero, frequency,diaPago) {
+    const startDate = new Date(start_date);
+    let fechaCuota;
+
+    switch (frequency) {
+        case 1: // Weekly
+        fechaCuota = new Date(startDate.getTime() + cuotaNumero * 7 * 24 * 60 * 60 * 1000);
+        // Establecer el día de pago si se proporciona
+        if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+            fechaCuota.setDate(diaPago);
+        }
+        break;
+    case 2: // Bi-Weekly
+        fechaCuota = new Date(startDate.getTime() + cuotaNumero * 14 * 24 * 60 * 60 * 1000);
+        // Establecer el día de pago si se proporciona
+        if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+            fechaCuota.setDate(diaPago);
+        }
+        break;
+    case 3: // Monthly
+    fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero, startDate.getDate());
+    // Calcular el nuevo mes y año por separado
+    const nuevoMes = startDate.getMonth() + cuotaNumero;
+    const nuevoAno = startDate.getFullYear() + Math.floor(nuevoMes / 12);
+    const mesAjustado = nuevoMes % 12;
+
+    fechaCuota.setMonth(mesAjustado);
+    fechaCuota.setFullYear(nuevoAno);
+
+    // Establecer el día de pago si se proporciona
+    if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+        fechaCuota.setDate(diaPago);
+    }else{
+        // Ajustar para asegurarse de que no sea posterior al último día del mes
+        fechaCuota.setDate(Math.min(startDate.getDate(), new Date(fechaCuota.getFullYear(), fechaCuota.getMonth() + 1, 0).getDate()));
+    
+    }
+
+    
+    break;
+    case 4: // Quarterly
+        fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero * 3, startDate.getDate());
+        // Establecer el día de pago si se proporciona
+        if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+            fechaCuota.setDate(diaPago);
+        }
+        break;
+    case 5: // Semi-Annually
+        fechaCuota = new Date(startDate.getFullYear(), startDate.getMonth() + cuotaNumero * 6, startDate.getDate());
+        // Establecer el día de pago si se proporciona
+        if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+            fechaCuota.setDate(diaPago);
+        }
+        break;
+    case 6: // Annually
+        fechaCuota = new Date(startDate.getFullYear() + cuotaNumero, startDate.getMonth(), startDate.getDate());
+        // Establecer el día de pago si se proporciona
+        if (diaPago !== undefined && diaPago >= 1 && diaPago <= 31) {
+            fechaCuota.setDate(diaPago);
+        }
+        break;
+    default:
+        throw new Error('Frecuencia no válida');
+    }
+
+    return fechaCuota.toISOString().split('T')[0];
+}
+
+
+function calcularDetallesCuotas(loanHeader) {
+    const {
+        LoanId,
+        TenantId,
+        FrequencyId,
+        Dues,
+        Interest,
+        Amount,
+        Start_date,
+        StateId
+    } = loanHeader;
+
+    // Arreglo para almacenar los detalles de las cuotas
+    const cuotas = [];
+    let payTotalAmount = 0;
+    let payTotalInterest = 0;
+    let payDuesAmount = 0;
+
+    // Calcular los valores necesarios para cada cuota
+    for (let cuotaNumero = 1; cuotaNumero <= Dues; cuotaNumero++) {
+        let duesAmount = Math.floor(Amount / Dues); // Redondear hacia abajo el monto de cada cuota
+        const totalInterest = Math.floor((Amount * Interest) / 100); // Redondear hacia abajo el total de interés por cuota
+        let totalAmount = duesAmount + totalInterest; // Monto total por cuota
+
+        // Ajustar el último pago para igualar el monto original del préstamo
+        if (cuotaNumero === Dues) {
+            const amountRemaining = Amount - payDuesAmount - duesAmount
+            console.log(amountRemaining)
+            duesAmount += amountRemaining
+        }
+
+        // Crear objeto con los valores calculados
+        const loanDetailValues = {
+            LoanId,
+            TenantId,
+            Dues_num:cuotaNumero,
+            Dues_amount: duesAmount,
+            Total_amount: totalAmount,
+            Total_interest: totalInterest,
+            dues_date:calcularFechaCuota(Start_date, cuotaNumero, FrequencyId, 5),
+            StateId,
+        };
+
+        payTotalAmount += duesAmount;
+        payTotalInterest += totalInterest;
+        payDuesAmount += duesAmount;
+
+        // Agregar el detalle de la cuota al arreglo
+        cuotas.push(loanDetailValues);
+    }
+
+    return {
+        cuotas,
+        payTotalAmount,
+        payTotalInterest,
+        payDuesAmount
+    };
+}
+
+// Ejemplo de uso
+const loanHeader = {
+    LoanId: 1,
+    TenantId: 'abc123',
+    UserId: 'user123',
+    infoId: 101,
+    FrequencyId: 1,
+    Amount: 10000.00,
+    Dues: 13,
+    Interest: 5.0,
+    Start_date: '2024-01-01',
+    StateId: 301,
+};
+
+const detallesCuotas = calcularDetallesCuotas(loanHeader);
+console.log(detallesCuotas);
