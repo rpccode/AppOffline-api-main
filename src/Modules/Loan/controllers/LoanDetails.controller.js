@@ -3,6 +3,24 @@ import { LoanDetail } from "../../models/index.js";
 
 const LoanDetailsController = {};
 
+LoanDetailsController.CreateDetailsByLoan = async(req,res) =>{
+    const cuotas = req.body
+    const t = await sequelizeInstance.transaction();
+        try {
+
+            await LoanDetail.bulkCreate(cuotas,{ transaction: t })
+
+            
+            await t.commit();
+            return {
+                ok:true,
+                msg:'Inserciones exitosa'
+            }
+        } catch (error) {
+            await t.rollback();
+            return { ok:false , error:'Error en el servidor: '+ error}
+        }
+}
 
 LoanDetailsController.CreateDetailsByLoan = async(cuotas) =>{
     const t = await sequelizeInstance.transaction();

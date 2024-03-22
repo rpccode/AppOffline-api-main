@@ -2,6 +2,17 @@ import { Info, LoanDetail, LoanHeader } from "../../models/index.js";
 
 const CustomerController = {};
 
+CustomerController.CreateByAppCustomer = async (req,res) => {
+        const listCustomers = req.body
+    try {
+
+        await Info.bulkCreate(listCustomers)
+        res.status(200).json({ok:true, msg:'Clientes Creados con exito'})
+        
+    } catch (error) {
+        res.status(500).json({ok:false, error:'Error en el Servidor:' + error})
+    }
+}
 
 CustomerController.CreateCustomer = async (req, res) => {
 
@@ -157,9 +168,6 @@ CustomerController.GetCustomersWithOverdueDues = async (req, res) => {
         res.status(500).json({ success: false, error: 'Error en el servidor' });
     }
 };
-
-
-
 
 CustomerController.GetPayByCustomer = async (req, res) => {
     const { TenantIdl } = req.user;

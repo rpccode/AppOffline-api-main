@@ -13,7 +13,7 @@ export const insertTenants = async (req, res) => {
             { TenantId: tenantRpccode, TenantName: 'rpccode' },
 
         ]);
-        console.log(tenantRpccode);
+        // console.log(tenantRpccode);
         await Users.bulkCreate([
             { UserId: tenantRpccode, TenantId: tenantRpccode, UserType: 1, Email: 'rpccode@gmail.com', Password: pwd }
         ])

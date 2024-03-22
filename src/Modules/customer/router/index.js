@@ -14,6 +14,8 @@ router.get('/dues', authenticateMiddleware, CustomerService.GetCustomersWithOver
 
 
 router.post('/', authenticateMiddleware, CustomerService.PostCustomer)
+router.post('/customer', authenticateMiddleware, CustomerService.CreateCustomerByApp)
+
 
 // router.get('/seed/tenant', insertTenants)
 

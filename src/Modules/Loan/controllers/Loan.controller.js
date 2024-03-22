@@ -106,6 +106,17 @@ LoanController.CreateLoan = async (req, res) => {
         }
     }
 }
+CustomerController.CreateLoanByApp = async (req,res) => {
+    const listLoanHeader = req.body
+try {
+
+    await LoanHeader.bulkCreate(listLoanHeader)
+    res.status(200).json({ok:true, msg:'Prestamos Creados con exito'})
+    
+} catch (error) {
+    res.status(500).json({ok:false, error:'Error en el Servidor:' + error})
+}
+}
 
 LoanController.UpdateLoan = async (req, res) => {
     const { TenantIdl } = req.user;
