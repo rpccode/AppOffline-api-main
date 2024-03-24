@@ -882,3 +882,24 @@ export const insertData = async (req, res) => {
         return res.status(500).json({ ok: false, msg: 'Error al realizar las inserciones:' + error.message });
     }
 };
+
+export const Information = async (req, res) => {
+    try {
+        const data = {
+            userTypes: await UserType.findAll(),
+            paises: await Pais.findAll(),
+            maRegions: await MARegion.findAll(),
+            miRegions: await MIRegion.findAll(),
+            provincias: await Provincia.findAll(),
+            ciudades: await Ciudad.findAll(),
+            Sectores: await Sector.findAll(),
+            frequencies: await Frequency.findAll(),
+            loanStates: await LoanState.findAll()
+        };
+
+        res.json({ok:true, data});
+    } catch (error) {
+        console.error('Error al obtener la información:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
