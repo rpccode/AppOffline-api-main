@@ -3,7 +3,7 @@ import CustomerController from "../controller/customer.controller.js";
 const CustomerService = {};
 
 
-CustomerService.CreateCustomerByApp =async () =>{
+CustomerService.CreateCustomerByApp =async (req, res) =>{
     return await CustomerController.CreateByAppCustomer(req,res)
 }
 
