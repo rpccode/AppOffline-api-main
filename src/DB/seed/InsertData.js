@@ -1,6 +1,5 @@
-import { Ciudad, Frequency, MARegion, MIRegion, Pais, Provincia, Sector, Tenant, UserType, Users } from "../../Modules/models/index.js";
+import { Ciudad, Frequency, MARegion, MIRegion, Pais, Provincia, Sector, UserType } from "../../Modules/models/index.js";
 import sequelizeInstance from "../../config/sequelize.config.js";
-import argon from 'argon2'
 import LoanState from "../../Modules/models/LoanState.js";
 
 export const insertData = async (req, res) => {
