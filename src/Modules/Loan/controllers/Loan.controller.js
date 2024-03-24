@@ -106,7 +106,7 @@ LoanController.CreateLoan = async (req, res) => {
         }
     }
 }
-CustomerController.CreateLoanByApp = async (req,res) => {
+LoanController.CreateLoanByApp = async (req,res) => {
     const listLoanHeader = req.body
 try {
 
