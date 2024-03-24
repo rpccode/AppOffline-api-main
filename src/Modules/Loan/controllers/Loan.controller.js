@@ -4,6 +4,7 @@ import { ValidationError } from "sequelize";
 import Info from "../../models/Info.js";
 import calcularDetallesCuotas from "../helpers/calcularDetallesCuotas.js";
 import LoanDetailsController from "./LoanDetails.controller.js";
+import LoanDetail from "../../models/LoanDetail.js";
 
 const LoanController = {};
 
@@ -112,6 +113,18 @@ try {
 
     await LoanHeader.bulkCreate(listLoanHeader)
     res.status(200).json({ok:true, msg:'Prestamos Creados con exito'})
+    
+} catch (error) {
+    res.status(500).json({ok:false, error:'Error en el Servidor:' + error})
+}
+}
+
+LoanController.CreateDuesByApp = async (req,res) => {
+    const listLoanHeader = req.body
+try {
+
+    await LoanDetail.bulkCreate(listLoanHeader)
+    res.status(200).json({ok:true, msg:'Cuotas Creados con exito'})
     
 } catch (error) {
     res.status(500).json({ok:false, error:'Error en el Servidor:' + error})

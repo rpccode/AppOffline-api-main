@@ -14,6 +14,12 @@ LoanService.GetOneLoanByTenant = async (req, res) => {
 LoanService.CreateLoan = async (req, res) => {
     return await LoanController.CreateLoan(req, res)
 }
+LoanService.LoadeLoanByApp = async (req, res) => {
+    return await LoanController.CreateLoanByApp(req, res)
+}
+LoanService.LoadeDuesByApp = async (req, res) => {
+    return await LoanController.CreateDuesByApp(req, res)
+}
 
 LoanService.UpdateLoan = async (req, res) => {
     return await LoanController.UpdateLoan(req, res);

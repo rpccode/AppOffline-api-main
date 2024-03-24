@@ -11,8 +11,13 @@ router.get('/', authenticateMiddleware, LoanService.GetAllLoanByTenant)
 router.get('/dues', authenticateMiddleware, LoanService.GetDuesByAllLoan)
 router.get('/:loanId', authenticateMiddleware, LoanService.GetOneLoanByTenant)
 router.post('/', authenticateMiddleware, LoanService.CreateLoan)
+router.post('/loandetail', authenticateMiddleware, LoanService.LoadeDuesByApp)
+router.post('/loanheader', authenticateMiddleware, LoanService.LoadeLoanByApp)
 router.put('/:loanId', authenticateMiddleware, LoanService.UpdateLoan)
 router.delete('/:loanId', authenticateMiddleware, LoanService.DelecteLoan)
+
+
+
 // router.get('/', authenticateMiddleware, CustomerService.GetCustomerByTenant)
 // router.post('/', authenticateMiddleware, CustomerService.PostCustomer)
 

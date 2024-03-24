@@ -10,6 +10,11 @@ const router = Router();
 router.use('/auth', authRouter)
 router.use('/customer', customerRouter)
 router.use('/loans', loanRouter)
+router.use('/loanheader', loanRouter)
+router.use('/loandetail', loanRouter)
+
+
+
 // Define your routes here
 router.get('/seed', insertData)
 router.get('/seed/tenant', insertTenants)
