@@ -109,6 +109,7 @@ LoanController.CreateLoan = async (req, res) => {
 }
 LoanController.CreateLoanByApp = async (req,res) => {
     const listLoanHeader = req.body
+    console.log({loan:{...req.body}})
 try {
 
     await LoanHeader.bulkCreate(listLoanHeader)
@@ -121,6 +122,7 @@ try {
 
 LoanController.CreateDuesByApp = async (req,res) => {
     const listLoanHeader = req.body
+    console.log({Dues:{...req.body}})
 try {
 
     await LoanDetail.bulkCreate(listLoanHeader)
