@@ -9,7 +9,7 @@ CustomerController.CreateByAppCustomer = async (req,res) => {
     try {
 
        const result = await Info.bulkCreate(listCustomers)
-       console.log(result)
+    //    console.log(result)
         res.status(200).json({ok:true, msg:'Clientes Creados con exito'})
         
     } catch (error) {
