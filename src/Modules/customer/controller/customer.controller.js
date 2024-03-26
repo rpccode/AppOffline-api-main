@@ -13,6 +13,7 @@ CustomerController.CreateByAppCustomer = async (req,res) => {
         res.status(200).json({ok:true, msg:'Clientes Creados con exito'})
         
     } catch (error) {
+        console.log(error)
         res.status(500).json({ok:false, error:'Error en el Servidor:' + error})
     }
 }
