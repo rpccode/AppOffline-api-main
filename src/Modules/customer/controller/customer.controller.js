@@ -4,7 +4,7 @@ const CustomerController = {};
 
 CustomerController.CreateByAppCustomer = async (req,res) => {
         const listCustomers = req.body
-        console.log({customer:{...req.body}})
+        console.log({customer:req.body})
     try {
 
         await Info.bulkCreate(listCustomers)
