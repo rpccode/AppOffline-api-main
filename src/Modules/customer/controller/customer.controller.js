@@ -4,6 +4,7 @@ const CustomerController = {};
 
 CustomerController.CreateByAppCustomer = async (req,res) => {
         const listCustomers = req.body
+        console.log(req)
         console.log(listCustomers)
     try {
 
